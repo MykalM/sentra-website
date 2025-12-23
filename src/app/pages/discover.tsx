@@ -112,10 +112,110 @@ export function DiscoverPage() {
       distance: "2.1 mi",
       imageUrl: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=300&fit=crop",
       hasActiveDemand: true
+    },
+    {
+      id: "blue-moon-coffee",
+      name: "Blue Moon Coffee",
+      cuisine: "Coffee",
+      neighborhood: "Alberta",
+      priceRange: "$",
+      rating: 4.3,
+      reviewCount: 445,
+      featuredItem: {
+        name: "Lavender Honey Latte",
+        currentPrice: 6,
+        basePrice: 5.50,
+        demandLevel: "Medium",
+        reservationCount: 8
+      },
+      openNow: true,
+      distance: "0.5 mi",
+      imageUrl: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop",
+      hasActiveDemand: true
+    },
+    {
+      id: "corner-bistro",
+      name: "Corner Bistro",
+      cuisine: "French",
+      neighborhood: "Northwest",
+      priceRange: "$$$",
+      rating: 4.7,
+      reviewCount: 267,
+      featuredItem: {
+        name: "Duck Confit",
+        currentPrice: 28,
+        basePrice: 26,
+        demandLevel: "High",
+        reservationCount: 11
+      },
+      openNow: true,
+      distance: "1.1 mi",
+      imageUrl: "https://images.unsplash.com/photo-1555992828-4b875ea4b213?w=400&h=300&fit=crop",
+      hasActiveDemand: true
+    },
+    {
+      id: "taco-libre",
+      name: "Taco Libre",
+      cuisine: "Mexican",
+      neighborhood: "Division",
+      priceRange: "$",
+      rating: 4.2,
+      reviewCount: 678,
+      featuredItem: {
+        name: "Carnitas Tacos",
+        currentPrice: 4.50,
+        basePrice: 4,
+        demandLevel: "Medium",
+        reservationCount: 6
+      },
+      openNow: true,
+      distance: "0.7 mi",
+      imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop",
+      hasActiveDemand: true
+    },
+    {
+      id: "sunrise-bagels",
+      name: "Sunrise Bagels",
+      cuisine: "Breakfast",
+      neighborhood: "Burnside",
+      priceRange: "$",
+      rating: 4.0,
+      reviewCount: 523,
+      featuredItem: {
+        name: "Everything Bagel with Lox",
+        currentPrice: 12,
+        basePrice: 11,
+        demandLevel: "Low",
+        reservationCount: 4
+      },
+      openNow: true,
+      distance: "1.5 mi",
+      imageUrl: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop",
+      hasActiveDemand: true
+    },
+    {
+      id: "noodle-house",
+      name: "Golden Noodle House",
+      cuisine: "Asian",
+      neighborhood: "Southeast",
+      priceRange: "$$",
+      rating: 4.1,
+      reviewCount: 356,
+      featuredItem: {
+        name: "Dan Dan Noodles",
+        currentPrice: 14,
+        basePrice: 13,
+        demandLevel: "Medium",
+        reservationCount: 9
+      },
+      openNow: true,
+      distance: "1.8 mi",
+      imageUrl: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=300&fit=crop",
+      hasActiveDemand: true
     }
   ];
 
-  const cuisines = ["All", "Wine Bar", "Seafood", "American", "Asian Fusion"];
+  const cuisines = ["All", "Coffee", "Breakfast", "Mexican", "Asian", "French", "Wine Bar", "Seafood", "American", "Asian Fusion"];
 
   const filteredRestaurants = restaurants.filter(restaurant => {
     const matchesSearch = restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -163,70 +263,69 @@ export function DiscoverPage() {
 
       <main className="max-w-7xl mx-auto px-6 py-8">
         
-        {/* Search Section */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-semibold text-foreground mb-2">
-            Discover restaurants with real-time demand
+        {/* Uber Eats Style Header */}
+        <div className="mb-6">
+          <h1 className="text-2xl font-semibold text-foreground mb-4">
+            Food delivery in {location}
           </h1>
-          <p className="text-muted-foreground mb-6">
-            See what's trending right now and reserve prices before you arrive
-          </p>
           
-          {/* Search Bar */}
-          <div className="grid md:grid-cols-12 gap-4 bg-card border border-border rounded-xl p-6">
-            <div className="md:col-span-4">
-              <label className="block text-sm font-medium text-foreground mb-2">Location</label>
-              <input
-                type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                className="w-full h-11 px-4 text-foreground bg-input border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                placeholder="City, neighborhood, or restaurant"
-              />
+          {/* Search Bar - Uber Eats Style */}
+          <div className="relative mb-6">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg className="h-5 w-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
             </div>
-            
-            <div className="md:col-span-3">
-              <label className="block text-sm font-medium text-foreground mb-2">Search</label>
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full h-11 px-4 text-foreground bg-input border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                placeholder="Restaurant or cuisine"
-              />
-            </div>
-            
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-foreground mb-2">Cuisine</label>
-              <select
-                value={selectedCuisine}
-                onChange={(e) => setSelectedCuisine(e.target.value)}
-                className="w-full h-11 px-4 text-foreground bg-input border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-              >
-                {cuisines.map(cuisine => (
-                  <option key={cuisine} value={cuisine}>{cuisine}</option>
-                ))}
-              </select>
-            </div>
-            
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-foreground mb-2">Sort by</label>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="w-full h-11 px-4 text-foreground bg-input border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-              >
-                <option value="demand">Live Demand</option>
-                <option value="rating">Rating</option>
-                <option value="distance">Distance</option>
-              </select>
-            </div>
-            
-            <div className="md:col-span-1 flex items-end">
-              <button className="w-full bg-primary text-primary-foreground h-11 rounded-md font-medium hover:bg-primary/90 transition-colors">
-                Search
-              </button>
-            </div>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full h-12 pl-10 pr-4 text-foreground bg-card border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              placeholder="Search for restaurant or cuisine"
+            />
+          </div>
+
+          {/* Filter Chips - Uber Eats Style */}
+          <div className="flex gap-3 overflow-x-auto pb-2">
+            <button 
+              onClick={() => setSortBy("demand")}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-colors ${
+                sortBy === "demand" 
+                  ? "bg-primary text-primary-foreground" 
+                  : "bg-card border border-border text-foreground hover:bg-muted"
+              }`}
+            >
+              🔥 Live Demand
+            </button>
+            <button 
+              onClick={() => setSortBy("rating")}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-colors ${
+                sortBy === "rating" 
+                  ? "bg-primary text-primary-foreground" 
+                  : "bg-card border border-border text-foreground hover:bg-muted"
+              }`}
+            >
+              ⭐ Top Rated
+            </button>
+            <button 
+              onClick={() => setSortBy("distance")}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-colors ${
+                sortBy === "distance" 
+                  ? "bg-primary text-primary-foreground" 
+                  : "bg-card border border-border text-foreground hover:bg-muted"
+              }`}
+            >
+              📍 Nearby
+            </button>
+            <select
+              value={selectedCuisine}
+              onChange={(e) => setSelectedCuisine(e.target.value)}
+              className="px-4 py-2 rounded-full text-sm font-medium bg-card border border-border text-foreground hover:bg-muted appearance-none"
+            >
+              {cuisines.map(cuisine => (
+                <option key={cuisine} value={cuisine}>{cuisine}</option>
+              ))}
+            </select>
           </div>
         </div>
 
@@ -247,8 +346,8 @@ export function DiscoverPage() {
           </div>
         </div>
 
-        {/* Restaurant Grid */}
-        <div className="grid gap-6">
+        {/* Restaurant Grid - Uber Eats Style */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {sortedRestaurants.map((restaurant) => (
             <RestaurantCard key={restaurant.id} restaurant={restaurant} />
           ))}
@@ -285,111 +384,108 @@ function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
   };
 
   return (
-    <div className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
-      <div className="grid md:grid-cols-12 gap-0">
+    <div className="bg-card border border-border rounded-2xl overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
+      {/* Restaurant Image - Uber Eats Style */}
+      <div className="aspect-[4/3] relative">
+        <img 
+          src={restaurant.imageUrl}
+          alt={restaurant.name}
+          className="w-full h-full object-cover"
+        />
         
-        {/* Restaurant Image */}
-        <div className="md:col-span-3">
-          <div className="aspect-[4/3] md:aspect-[3/4] relative">
-            <img 
-              src={restaurant.imageUrl}
-              alt={restaurant.name}
-              className="w-full h-full object-cover"
-            />
-            {restaurant.hasActiveDemand && (
-              <div className="absolute top-3 left-3">
-                <div className="bg-red-600 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
-                  <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
-                  LIVE
-                </div>
-              </div>
-            )}
+        {/* Live Badge */}
+        {restaurant.hasActiveDemand && (
+          <div className="absolute top-3 left-3">
+            <div className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1.5">
+              <div className="w-1.5 h-1.5 bg-current rounded-full animate-pulse"></div>
+              LIVE DEMAND
+            </div>
+          </div>
+        )}
+
+        {/* Distance Badge */}
+        <div className="absolute top-3 right-3">
+          <div className="bg-card/90 backdrop-blur-sm text-foreground px-2 py-1 rounded-lg text-xs font-medium">
+            {restaurant.distance}
           </div>
         </div>
 
-        {/* Restaurant Info */}
-        <div className="md:col-span-6 p-6">
-          <div className="flex items-start justify-between mb-3">
-            <div>
-              <h3 className="text-lg font-semibold text-foreground mb-1">
-                {restaurant.name}
-              </h3>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>{restaurant.cuisine}</span>
-                <span>•</span>
-                <span>{restaurant.neighborhood}</span>
-                <span>•</span>
-                <span>{restaurant.priceRange}</span>
-                <span>•</span>
-                <span>{restaurant.distance}</span>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="flex items-center gap-1 mb-1">
-                <span className="text-sm font-medium text-foreground">{restaurant.rating}</span>
-                <svg className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
-                  <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
-                </svg>
-              </div>
-              <p className="text-xs text-muted-foreground">({restaurant.reviewCount} reviews)</p>
+        {/* Status Badge */}
+        <div className="absolute bottom-3 left-3">
+          <span className={`px-2 py-1 rounded-lg text-xs font-medium backdrop-blur-sm ${
+            restaurant.openNow 
+              ? 'text-green-700 bg-green-100/90' 
+              : 'text-red-700 bg-red-100/90'
+          }`}>
+            {restaurant.openNow ? 'Open' : 'Closed'}
+          </span>
+        </div>
+      </div>
+
+      {/* Restaurant Info */}
+      <div className="p-4">
+        {/* Header */}
+        <div className="flex items-start justify-between mb-2">
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold text-foreground mb-1 leading-tight">
+              {restaurant.name}
+            </h3>
+            <div className="flex items-center gap-1 text-sm text-muted-foreground">
+              <span>{restaurant.cuisine}</span>
+              <span>•</span>
+              <span>{restaurant.priceRange}</span>
             </div>
           </div>
-
-          <div className="flex items-center gap-2 mb-4">
-            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-              restaurant.openNow ? 'text-green-600 bg-green-100' : 'text-red-600 bg-red-100'
-            }`}>
-              {restaurant.openNow ? 'Open now' : 'Closed'}
-            </span>
+          
+          <div className="flex items-center gap-1 ml-3">
+            <svg className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+              <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+            </svg>
+            <span className="text-sm font-medium text-foreground">{restaurant.rating}</span>
+            <span className="text-xs text-muted-foreground">({restaurant.reviewCount})</span>
           </div>
+        </div>
 
-          {restaurant.hasActiveDemand && (
-            <div className="bg-background border border-border rounded-lg p-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-foreground">Featured tonight</span>
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDemandColor(restaurant.featuredItem.demandLevel)}`}>
-                  {restaurant.featuredItem.demandLevel} demand
-                </span>
-              </div>
-              <h4 className="font-medium text-foreground mb-1">
+        {/* Featured Item - Only show if has active demand */}
+        {restaurant.hasActiveDemand && (
+          <div className="bg-background border border-border rounded-lg p-3 mb-3">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-sm font-medium text-foreground">Tonight's Special</span>
+              <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getDemandColor(restaurant.featuredItem.demandLevel)}`}>
+                {restaurant.featuredItem.demandLevel}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-foreground font-medium">
                 {restaurant.featuredItem.name}
-              </h4>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">
-                  {restaurant.featuredItem.reservationCount} reservations
-                </span>
-                <div className="text-right">
-                  <span className="font-semibold text-foreground">${restaurant.featuredItem.currentPrice}</span>
-                  {restaurant.featuredItem.currentPrice > restaurant.featuredItem.basePrice && (
-                    <span className="text-xs text-muted-foreground ml-1">
-                      (${restaurant.featuredItem.basePrice} base)
-                    </span>
-                  )}
-                </div>
+              </span>
+              <div className="text-right">
+                <span className="font-semibold text-foreground">${restaurant.featuredItem.currentPrice}</span>
+                {restaurant.featuredItem.currentPrice > restaurant.featuredItem.basePrice && (
+                  <div className="text-xs text-muted-foreground">
+                    was ${restaurant.featuredItem.basePrice}
+                  </div>
+                )}
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
-        {/* Action Column */}
-        <div className="md:col-span-3 p-6 border-l border-border flex flex-col justify-center">
+        {/* Actions */}
+        <div className="space-y-2">
           <a
             href={`/venue/${restaurant.id}`}
-            className="w-full bg-primary text-primary-foreground h-11 rounded-md font-medium hover:bg-primary/90 transition-colors inline-flex items-center justify-center mb-3"
+            className="w-full bg-primary text-primary-foreground h-10 rounded-lg font-medium hover:bg-primary/90 transition-colors inline-flex items-center justify-center text-sm"
           >
-            View Live Menu
+            View Menu & Reserve
           </a>
           
           {restaurant.hasActiveDemand && (
-            <button className="w-full border border-border text-foreground h-11 rounded-md font-medium hover:bg-muted transition-colors">
-              Reserve Featured Item
-            </button>
-          )}
-          
-          {!restaurant.hasActiveDemand && (
-            <p className="text-center text-xs text-muted-foreground">
-              No active demand signals
-            </p>
+            <div className="text-center">
+              <span className="text-xs text-muted-foreground">
+                {restaurant.featuredItem.reservationCount} people reserved tonight
+              </span>
+            </div>
           )}
         </div>
       </div>
