@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { PriceChart } from "../components/price-chart";
 import { LockInPricing } from "../components/lock-in-pricing";
+import { CoffeeShopModes } from "../components/coffee-shop-modes";
+import { CoffeeConfirmation } from "../components/coffee-confirmation";
 
 interface MenuItem {
   id: string;
@@ -39,6 +41,12 @@ export function VenuePage() {
   const { venueId } = useParams<{ venueId: string }>();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [reservingItem, setReservingItem] = useState<string | null>(null);
+  const [coffeeConfirmation, setCoffeeConfirmation] = useState<{
+    item: MenuItem;
+    mode: 'skip-line' | 'lock-price';
+    pickupTime?: string;
+    code: string;
+  } | null>(null);
 
   useEffect(() => {
     document.title = "Menu — Sentra";
@@ -350,6 +358,35 @@ export function VenuePage() {
     }, 2000);
   };
 
+  const handleCoffeeSkipLine = async (item: MenuItem, pickupTime: string) => {
+    setReservingItem(item.id);
+    // Simulate API call
+    setTimeout(() => {
+      setReservingItem(null);
+      const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+      setCoffeeConfirmation({
+        item,
+        mode: 'skip-line',
+        pickupTime,
+        code
+      });
+    }, 2000);
+  };
+
+  const handleCoffeeLockPrice = async (item: MenuItem) => {
+    setReservingItem(item.id);
+    // Simulate API call
+    setTimeout(() => {
+      setReservingItem(null);
+      const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+      setCoffeeConfirmation({
+        item,
+        mode: 'lock-price',
+        code
+      });
+    }, 2000);
+  };
+
   if (!venue) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -360,6 +397,21 @@ export function VenuePage() {
       </div>
     );
   }
+
+  // Show coffee confirmation if exists
+  if (coffeeConfirmation) {
+    return (
+      <CoffeeConfirmation
+        item={coffeeConfirmation.item}
+        mode={coffeeConfirmation.mode}
+        pickupTime={coffeeConfirmation.pickupTime}
+        code={coffeeConfirmation.code}
+        venueName={venue.name}
+      />
+    );
+  }
+
+  const isCoffeeShop = venue.cuisine === "Coffee Shop";
 
   return (
     <div className="min-h-screen bg-background">
@@ -481,25 +533,43 @@ export function VenuePage() {
                   </p>
                 </div>
 
-                {/* Price Chart */}
-                <PriceChart 
-                  priceHistory={item.priceHistory}
-                  currentPrice={item.currentPrice}
-                  priceChange={item.priceChange}
-                  priceChangeDirection={item.priceChangeDirection}
-                />
+                {/* Conditional Pricing Interface */}
+                {isCoffeeShop ? (
+                  <CoffeeShopModes
+                    item={{
+                      name: item.name,
+                      currentPrice: item.currentPrice,
+                      reservationFee: item.reservationFee,
+                      peakPriceToday: item.peakPriceToday,
+                      priceChange: item.priceChange
+                    }}
+                    onSkipLine={(pickupTime) => handleCoffeeSkipLine(item, pickupTime)}
+                    onLockPrice={() => handleCoffeeLockPrice(item)}
+                    isProcessing={reservingItem === item.id}
+                  />
+                ) : (
+                  <>
+                    {/* Price Chart */}
+                    <PriceChart 
+                      priceHistory={item.priceHistory}
+                      currentPrice={item.currentPrice}
+                      priceChange={item.priceChange}
+                      priceChangeDirection={item.priceChangeDirection}
+                    />
 
-                {/* Lock In Pricing */}
-                <LockInPricing
-                  currentPrice={item.currentPrice}
-                  reservationFee={item.reservationFee}
-                  peakPriceToday={item.peakPriceToday}
-                  hourlyReservations={item.hourlyReservations}
-                  locksLeftAtPrice={item.locksLeftAtPrice}
-                  itemName={item.name}
-                  onLockIn={() => handleReserveItem(item.id)}
-                  isLocking={reservingItem === item.id}
-                />
+                    {/* Lock In Pricing */}
+                    <LockInPricing
+                      currentPrice={item.currentPrice}
+                      reservationFee={item.reservationFee}
+                      peakPriceToday={item.peakPriceToday}
+                      hourlyReservations={item.hourlyReservations}
+                      locksLeftAtPrice={item.locksLeftAtPrice}
+                      itemName={item.name}
+                      onLockIn={() => handleReserveItem(item.id)}
+                      isLocking={reservingItem === item.id}
+                    />
+                  </>
+                )}
               </div>
             </div>
           ))}
