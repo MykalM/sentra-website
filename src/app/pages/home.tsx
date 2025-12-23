@@ -1,4 +1,5 @@
 import { HeroSection } from "../components/hero-section";
+import { HowItWorksSection } from "../components/how-it-works-section";
 import { ProblemSection } from "../components/problem-section";
 import { SolutionSection } from "../components/solution-section";
 import { InsightSection } from "../components/insight-section";
@@ -33,6 +34,7 @@ export function HomePage() {
   return (
     <>
       <HeroSection onCtaClick={() => scrollToSection("pilot")} />
+      <HowItWorksSection />
       <ProblemSection />
       <SolutionSection />
       <InsightSection />

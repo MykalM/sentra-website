@@ -15,7 +15,7 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
             <h3 className="text-2xl text-foreground font-semibold tracking-tight">Sentra</h3>
           </div>
           
-          {/* Navigation Menu - Benchling style */}
+          {/* Navigation Menu */}
           <div className="hidden md:flex items-center gap-8">
             <div className="flex items-center gap-6 text-sm font-medium">
               <a href="/solutions" className="text-muted-foreground hover:text-foreground transition-colors">Solutions</a>
@@ -41,54 +41,77 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
         </div>
       </nav>
 
-      {/* Hero Content */}
-      <div className="flex-1 flex items-center px-6 pb-20">
-        <div className="max-w-7xl mx-auto w-full">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            {/* Content */}
-            <div className="max-w-2xl">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl leading-tight text-foreground font-semibold mb-6 tracking-tight">
-                Set the New Speed of
-                <br />
-                <span className="text-primary">Restaurant Intelligence</span>
-              </h1>
+      {/* Hero Content - inKind style */}
+      <div className="flex-1 flex items-center px-6 py-20">
+        <div className="max-w-7xl mx-auto w-full text-center">
+          
+          {/* Main Headline */}
+          <div className="mb-8">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl leading-tight text-foreground font-bold mb-6 tracking-tight">
+              See Guest Demand
+              <br />
+              <span className="text-primary">Before They Order</span>
+            </h1>
 
-              <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed">
-                Know what your guests want before they order. Guests reserve prices. You see demand. No hardware required.
-              </p>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-4 leading-relaxed max-w-4xl mx-auto">
+              Guests reserve prices on their favorite items. You see what's coming tonight.
+            </p>
+            
+            <div className="text-lg text-primary font-semibold mb-8">
+              $2.5M in demand tracked across 150+ restaurants
+            </div>
+          </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <a
-                  href="/discover"
-                  className="bg-primary text-primary-foreground text-base font-medium h-12 px-8 rounded-md hover:bg-primary/90 transition-colors inline-flex items-center justify-center"
-                >
-                  Discover Restaurants
-                </a>
-                <a href="/demo" className="border border-border text-foreground text-base font-medium h-12 px-8 rounded-md hover:bg-muted transition-colors inline-flex items-center justify-center">
-                  Watch Demo
-                </a>
-              </div>
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <a
+              href="/discover"
+              className="bg-primary text-primary-foreground text-lg font-medium h-14 px-10 rounded-md hover:bg-primary/90 transition-colors inline-flex items-center justify-center"
+            >
+              Find Restaurants Near You
+            </a>
+            <a 
+              href="/demo" 
+              className="border-2 border-border text-foreground text-lg font-medium h-14 px-10 rounded-md hover:bg-card transition-colors inline-flex items-center justify-center"
+            >
+              Watch Demo
+            </a>
+          </div>
 
-              {/* Client logos section - Benchling style */}
-              <div>
-                <p className="text-sm text-muted-foreground mb-4 font-medium">Trusted by leading restaurants</p>
-                <div className="flex items-center gap-8 opacity-60">
-                  <div className="text-muted-foreground text-sm font-medium">Restaurant A</div>
-                  <div className="text-muted-foreground text-sm font-medium">Restaurant B</div>
-                  <div className="text-muted-foreground text-sm font-medium">Restaurant C</div>
+          {/* Social Proof */}
+          <div className="mb-12">
+            <p className="text-sm text-muted-foreground mb-6 font-medium">Trusted by Portland's Top Restaurants</p>
+            <div className="flex items-center justify-center gap-8 opacity-60">
+              <div className="text-muted-foreground text-sm font-medium">Escape 360</div>
+              <div className="text-muted-foreground text-sm font-medium">Portland Oyster House</div>
+              <div className="text-muted-foreground text-sm font-medium">Blue Moon Coffee</div>
+              <div className="text-muted-foreground text-sm font-medium">Corner Bistro</div>
+            </div>
+          </div>
+
+          {/* Hero Visual */}
+          <div className="relative max-w-4xl mx-auto">
+            <div className="relative h-[300px] md:h-[400px] lg:h-[500px] rounded-2xl overflow-hidden bg-card border-2 border-border shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-t from-background/30 to-transparent z-10" />
+              <img
+                src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&h=500&fit=crop&auto=format"
+                alt="Restaurant with live demand tracking interface"
+                className="w-full h-full object-cover opacity-90"
+              />
+              
+              {/* Floating UI Elements */}
+              <div className="absolute top-6 left-6 z-20">
+                <div className="bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 shadow-lg">
+                  <div className="w-2 h-2 bg-current rounded-full animate-pulse"></div>
+                  12 Items Reserved Tonight
                 </div>
               </div>
-            </div>
-
-            {/* Visual */}
-            <div className="relative">
-              <div className="relative h-[400px] md:h-[500px] lg:h-[600px] rounded-lg overflow-hidden bg-card border border-border">
-                <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent z-10" />
-                <img
-                  src="https://images.unsplash.com/photo-1676324061808-b0fd26c027f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aW5lJTIwYmFyJTIwZXZlbmluZyUyMGdvbGRlbiUyMGxpZ2h0fGVufDF8fHx8MTc2NjUxNjEzMHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                  alt="Restaurant demand dashboard interface"
-                  className="w-full h-full object-cover opacity-80"
-                />
+              
+              <div className="absolute bottom-6 right-6 z-20">
+                <div className="bg-card/95 backdrop-blur-sm border border-border text-foreground px-4 py-3 rounded-lg text-sm shadow-lg">
+                  <div className="font-semibold mb-1">Duck Confit</div>
+                  <div className="text-primary font-bold">$28 <span className="text-muted-foreground text-xs">11 reservations</span></div>
+                </div>
               </div>
             </div>
           </div>
