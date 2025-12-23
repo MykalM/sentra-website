@@ -12,6 +12,7 @@ import { DashboardPage } from "./pages/dashboard";
 import { GuestPage } from "./pages/guest";
 import { QRPage } from "./pages/qr";
 import { DiscoverPage } from "./pages/discover";
+import { VenuePage } from "./pages/venue";
 
 export default function App() {
   return (
@@ -29,7 +30,7 @@ export default function App() {
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/guest" element={<GuestPage />} />
-          <Route path="/venue/:venueSlug" element={<GuestPage />} />
+          <Route path="/venue/:venueId" element={<VenuePage />} />
           <Route path="/qr" element={<QRPage />} />
           <Route path="/discover" element={<DiscoverPage />} />
         </Routes>
