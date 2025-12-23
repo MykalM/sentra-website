@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { PriceChart } from "../components/price-chart";
+import { LockInPricing } from "../components/lock-in-pricing";
 
 interface MenuItem {
   id: string;
@@ -14,6 +16,12 @@ interface MenuItem {
   availableCount: number;
   imageUrl: string;
   category: string;
+  priceHistory: Array<{ time: string; price: number }>;
+  hourlyReservations: number;
+  locksLeftAtPrice: number;
+  peakPriceToday: number;
+  priceChange: number;
+  priceChangeDirection: "up" | "down" | "stable";
 }
 
 interface Venue {
@@ -57,6 +65,16 @@ export function VenuePage() {
       rating: 4.8,
       reviewCount: 324,
       imageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=400&fit=crop"
+    },
+    "blue-moon-coffee": {
+      id: "blue-moon-coffee",
+      name: "Blue Moon Coffee",
+      location: "Alberta Arts District, Portland",
+      atmosphere: "Cozy neighborhood coffee shop with artisan roasts",
+      cuisine: "Coffee Shop",
+      rating: 4.3,
+      reviewCount: 445,
+      imageUrl: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=400&fit=crop"
     }
   };
 
@@ -74,7 +92,18 @@ export function VenuePage() {
         reservationCount: 15,
         availableCount: 4,
         imageUrl: "https://images.unsplash.com/photo-1579027989054-b11fd739e7d9?w=400&h=300&fit=crop",
-        category: "Tasting Menu"
+        category: "Tasting Menu",
+        priceHistory: [
+          { time: "5pm", price: 78 },
+          { time: "6pm", price: 80 },
+          { time: "7pm", price: 82 },
+          { time: "8pm", price: 85 },
+        ],
+        hourlyReservations: 8,
+        locksLeftAtPrice: 2,
+        peakPriceToday: 95,
+        priceChange: 7,
+        priceChangeDirection: "up"
       },
       {
         id: "wagyu-bowl",
@@ -88,7 +117,18 @@ export function VenuePage() {
         reservationCount: 12,
         availableCount: 6,
         imageUrl: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop",
-        category: "Mains"
+        category: "Mains",
+        priceHistory: [
+          { time: "5pm", price: 45 },
+          { time: "6pm", price: 46 },
+          { time: "7pm", price: 47 },
+          { time: "8pm", price: 48 },
+        ],
+        hourlyReservations: 12,
+        locksLeftAtPrice: 3,
+        peakPriceToday: 52,
+        priceChange: 3,
+        priceChangeDirection: "up"
       },
       {
         id: "ramen-special",
@@ -102,7 +142,18 @@ export function VenuePage() {
         reservationCount: 8,
         availableCount: 12,
         imageUrl: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=300&fit=crop",
-        category: "Mains"
+        category: "Mains",
+        priceHistory: [
+          { time: "5pm", price: 20 },
+          { time: "6pm", price: 21 },
+          { time: "7pm", price: 22 },
+          { time: "8pm", price: 22 },
+        ],
+        hourlyReservations: 8,
+        locksLeftAtPrice: 6,
+        peakPriceToday: 25,
+        priceChange: 2,
+        priceChangeDirection: "up"
       },
       {
         id: "sake-flight",
@@ -116,7 +167,13 @@ export function VenuePage() {
         reservationCount: 6,
         availableCount: 8,
         imageUrl: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&h=300&fit=crop",
-        category: "Drinks"
+        category: "Drinks",
+        priceHistory: [{ time: "5pm", price: 26 }, { time: "6pm", price: 27 }, { time: "7pm", price: 28 }, { time: "8pm", price: 28 }],
+        hourlyReservations: 6,
+        locksLeftAtPrice: 4,
+        peakPriceToday: 32,
+        priceChange: 2,
+        priceChangeDirection: "up"
       },
       {
         id: "uni-toast",
@@ -130,7 +187,13 @@ export function VenuePage() {
         reservationCount: 4,
         availableCount: 10,
         imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop",
-        category: "Appetizers"
+        category: "Appetizers",
+        priceHistory: [{ time: "5pm", price: 22 }, { time: "6pm", price: 22 }, { time: "7pm", price: 23 }, { time: "8pm", price: 24 }],
+        hourlyReservations: 4,
+        locksLeftAtPrice: 8,
+        peakPriceToday: 26,
+        priceChange: 2,
+        priceChangeDirection: "up"
       },
       {
         id: "matcha-dessert",
@@ -144,7 +207,13 @@ export function VenuePage() {
         reservationCount: 3,
         availableCount: 15,
         imageUrl: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400&h=300&fit=crop",
-        category: "Desserts"
+        category: "Desserts",
+        priceHistory: [{ time: "5pm", price: 12 }, { time: "6pm", price: 12 }, { time: "7pm", price: 13 }, { time: "8pm", price: 14 }],
+        hourlyReservations: 3,
+        locksLeftAtPrice: 12,
+        peakPriceToday: 16,
+        priceChange: 2,
+        priceChangeDirection: "up"
       }
     ],
     "escape-360": [
@@ -160,7 +229,95 @@ export function VenuePage() {
         reservationCount: 12,
         availableCount: 8,
         imageUrl: "https://images.unsplash.com/photo-1586370434639-0fe43b2d32d6?w=400&h=300&fit=crop",
-        category: "White Wine"
+        category: "White Wine",
+        priceHistory: [
+          { time: "7pm", price: 22 },
+          { time: "8pm", price: 23 },
+          { time: "9pm", price: 24 },
+          { time: "now", price: 24 },
+        ],
+        hourlyReservations: 12,
+        locksLeftAtPrice: 4,
+        peakPriceToday: 28,
+        priceChange: 2,
+        priceChangeDirection: "up"
+      }
+    ],
+    "blue-moon-coffee": [
+      {
+        id: "oat-milk-flat-white",
+        name: "Oat Milk Flat White",
+        description: "House blend espresso with premium oat milk",
+        details: "Our signature single-origin Ethiopian beans with perfectly steamed Oatly milk. Smooth, creamy, and sustainably sourced.",
+        currentPrice: 6.80,
+        basePrice: 6.50,
+        reservationFee: 1.00,
+        demandLevel: "High",
+        reservationCount: 12,
+        availableCount: 8,
+        imageUrl: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop",
+        category: "Coffee",
+        priceHistory: [
+          { time: "7am", price: 6.50 },
+          { time: "8am", price: 6.80 },
+          { time: "9am", price: 6.80 },
+          { time: "now", price: 6.80 },
+        ],
+        hourlyReservations: 12,
+        locksLeftAtPrice: 3,
+        peakPriceToday: 7.50,
+        priceChange: 0.30,
+        priceChangeDirection: "up"
+      },
+      {
+        id: "lavender-honey-latte",
+        name: "Lavender Honey Latte",
+        description: "Espresso with lavender-infused honey syrup",
+        details: "House-made lavender honey syrup with our signature espresso blend and steamed milk. A floral and sweet morning treat.",
+        currentPrice: 6.00,
+        basePrice: 5.50,
+        reservationFee: 1.00,
+        demandLevel: "Medium",
+        reservationCount: 8,
+        availableCount: 12,
+        imageUrl: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop",
+        category: "Specialty Drinks",
+        priceHistory: [
+          { time: "7am", price: 5.50 },
+          { time: "8am", price: 5.75 },
+          { time: "9am", price: 6.00 },
+          { time: "now", price: 6.00 },
+        ],
+        hourlyReservations: 8,
+        locksLeftAtPrice: 5,
+        peakPriceToday: 6.75,
+        priceChange: 0.50,
+        priceChangeDirection: "up"
+      },
+      {
+        id: "avocado-toast",
+        name: "Smashed Avocado Toast",
+        description: "Sourdough with smashed avocado and everything seasoning",
+        details: "Locally-baked sourdough with perfectly ripe avocado, everything bagel seasoning, red pepper flakes, and a drizzle of olive oil.",
+        currentPrice: 11.00,
+        basePrice: 10.00,
+        reservationFee: 1.50,
+        demandLevel: "Medium",
+        reservationCount: 6,
+        availableCount: 10,
+        imageUrl: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400&h=300&fit=crop",
+        category: "Food",
+        priceHistory: [
+          { time: "7am", price: 10.00 },
+          { time: "8am", price: 10.50 },
+          { time: "9am", price: 11.00 },
+          { time: "now", price: 11.00 },
+        ],
+        hourlyReservations: 6,
+        locksLeftAtPrice: 7,
+        peakPriceToday: 12.50,
+        priceChange: 1.00,
+        priceChangeDirection: "up"
       }
     ]
   };
@@ -324,54 +481,25 @@ export function VenuePage() {
                   </p>
                 </div>
 
-                {/* Pricing Section */}
-                <div className="bg-background border border-border rounded-lg p-4 mb-4">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <p className="text-sm text-muted-foreground mb-1">Tonight's Price</p>
-                      <p className="text-2xl font-bold text-foreground">
-                        ${item.currentPrice}
-                        {item.currentPrice > item.basePrice && (
-                          <span className="text-sm text-muted-foreground font-normal ml-2">
-                            was ${item.basePrice}
-                          </span>
-                        )}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm text-muted-foreground mb-1">Reserve for</p>
-                      <p className="text-lg font-semibold text-primary">
-                        ${item.reservationFee}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex justify-between items-center text-xs text-muted-foreground">
-                    <span>{item.reservationCount} reservations tonight</span>
-                    <span>{item.availableCount} available</span>
-                  </div>
-                </div>
+                {/* Price Chart */}
+                <PriceChart 
+                  priceHistory={item.priceHistory}
+                  currentPrice={item.currentPrice}
+                  priceChange={item.priceChange}
+                  priceChangeDirection={item.priceChangeDirection}
+                />
 
-                {/* Reserve Button */}
-                <button
-                  onClick={() => handleReserveItem(item.id)}
-                  disabled={reservingItem === item.id || item.availableCount === 0}
-                  className="w-full bg-primary text-primary-foreground h-12 rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center text-sm"
-                >
-                  {reservingItem === item.id ? (
-                    <>
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Reserving...
-                    </>
-                  ) : item.availableCount === 0 ? (
-                    "Sold Out"
-                  ) : (
-                    `Reserve ${item.name} — $${item.reservationFee}`
-                  )}
-                </button>
+                {/* Lock In Pricing */}
+                <LockInPricing
+                  currentPrice={item.currentPrice}
+                  reservationFee={item.reservationFee}
+                  peakPriceToday={item.peakPriceToday}
+                  hourlyReservations={item.hourlyReservations}
+                  locksLeftAtPrice={item.locksLeftAtPrice}
+                  itemName={item.name}
+                  onLockIn={() => handleReserveItem(item.id)}
+                  isLocking={reservingItem === item.id}
+                />
               </div>
             </div>
           ))}
