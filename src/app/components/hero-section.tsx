@@ -59,10 +59,10 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
                 <a
-                  href="/signup"
+                  href="/discover"
                   className="bg-primary text-primary-foreground text-base font-medium h-12 px-8 rounded-md hover:bg-primary/90 transition-colors inline-flex items-center justify-center"
                 >
-                  Get Started
+                  Discover Restaurants
                 </a>
                 <a href="/demo" className="border border-border text-foreground text-base font-medium h-12 px-8 rounded-md hover:bg-muted transition-colors inline-flex items-center justify-center">
                   Watch Demo

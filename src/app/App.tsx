@@ -11,6 +11,7 @@ import { ForgotPasswordPage } from "./pages/forgot-password";
 import { DashboardPage } from "./pages/dashboard";
 import { GuestPage } from "./pages/guest";
 import { QRPage } from "./pages/qr";
+import { DiscoverPage } from "./pages/discover";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/guest" element={<GuestPage />} />
           <Route path="/venue/:venueSlug" element={<GuestPage />} />
           <Route path="/qr" element={<QRPage />} />
+          <Route path="/discover" element={<DiscoverPage />} />
         </Routes>
       </div>
     </Router>
