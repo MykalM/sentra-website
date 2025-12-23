@@ -43,6 +43,8 @@ export function SignupPage() {
       setIsLoading(false);
       // In real app, handle signup logic here
       console.log("Signup submitted:", formData);
+      // Redirect to dashboard on successful signup
+      window.location.href = '/dashboard';
     }, 1500);
   };
 

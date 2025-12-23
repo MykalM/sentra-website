@@ -35,6 +35,8 @@ export function LoginPage() {
       setIsLoading(false);
       // In real app, handle login logic here
       console.log("Login submitted:", formData);
+      // Redirect to dashboard on successful login
+      window.location.href = '/dashboard';
     }, 1500);
   };
 

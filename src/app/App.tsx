@@ -8,6 +8,7 @@ import { DemoPage } from "./pages/demo";
 import { SignupPage } from "./pages/signup";
 import { LoginPage } from "./pages/login";
 import { ForgotPasswordPage } from "./pages/forgot-password";
+import { DashboardPage } from "./pages/dashboard";
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
         </Routes>
       </div>
     </Router>
