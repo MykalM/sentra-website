@@ -1,46 +1,24 @@
-import { HeroSection } from "./components/hero-section";
-import { ProblemSection } from "./components/problem-section";
-import { SolutionSection } from "./components/solution-section";
-import { InsightSection } from "./components/insight-section";
-import { PilotCtaSection } from "./components/pilot-cta-section";
-import { FAQSection } from "./components/faq-section";
-import { Footer } from "./components/footer";
-import { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HomePage } from "./pages/home";
+import { SolutionsPage } from "./pages/solutions";
+import { PlatformPage } from "./pages/platform";
+import { ResourcesPage } from "./pages/resources";
+import { AboutPage } from "./pages/about";
+import { DemoPage } from "./pages/demo";
 
 export default function App() {
-  useEffect(() => {
-    // Set document title and meta description for SEO
-    document.title = "Sentra — Know What Your Guests Want Before They Order";
-    
-    // Update or create meta description
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.setAttribute('name', 'description');
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute(
-      'content', 
-      'Sentra helps bars and restaurants see guest demand in real time. Guests reserve prices. You see what\'s coming. No hardware required.'
-    );
-  }, []);
-
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
-    <div className="min-h-screen">
-      <HeroSection onCtaClick={() => scrollToSection("pilot")} />
-      <ProblemSection />
-      <SolutionSection />
-      <InsightSection />
-      <PilotCtaSection />
-      <FAQSection />
-      <Footer />
-    </div>
+    <Router>
+      <div className="min-h-screen">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/solutions" element={<SolutionsPage />} />
+          <Route path="/platform" element={<PlatformPage />} />
+          <Route path="/resources" element={<ResourcesPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/demo" element={<DemoPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }

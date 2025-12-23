@@ -18,10 +18,10 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
           {/* Navigation Menu - Benchling style */}
           <div className="hidden md:flex items-center gap-8">
             <div className="flex items-center gap-6 text-sm font-medium">
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Solutions</a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Platform</a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Resources</a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">About</a>
+              <a href="/solutions" className="text-muted-foreground hover:text-foreground transition-colors">Solutions</a>
+              <a href="/platform" className="text-muted-foreground hover:text-foreground transition-colors">Platform</a>
+              <a href="/resources" className="text-muted-foreground hover:text-foreground transition-colors">Resources</a>
+              <a href="/about" className="text-muted-foreground hover:text-foreground transition-colors">About</a>
             </div>
             <button
               onClick={onCtaClick}
@@ -56,9 +56,9 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
                 >
                   Join the Pilot
                 </button>
-                <button className="border border-border text-foreground text-base font-medium h-12 px-8 rounded-md hover:bg-muted transition-colors inline-flex items-center justify-center">
+                <a href="/demo" className="border border-border text-foreground text-base font-medium h-12 px-8 rounded-md hover:bg-muted transition-colors inline-flex items-center justify-center">
                   Watch Demo
-                </button>
+                </a>
               </div>
 
               {/* Client logos section - Benchling style */}
