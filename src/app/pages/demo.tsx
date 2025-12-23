@@ -395,9 +395,12 @@ export function DemoPage() {
             >
               Join the Pilot Program
             </a>
-            <button className="border border-border text-foreground text-base font-medium h-12 px-8 rounded-md hover:bg-background transition-colors">
-              Schedule Personal Demo
-            </button>
+            <a
+              href="/qr"
+              className="border border-border text-foreground text-base font-medium h-12 px-8 rounded-md hover:bg-background transition-colors inline-flex items-center justify-center"
+            >
+              Try Customer Experience
+            </a>
           </div>
         </div>
       </section>
