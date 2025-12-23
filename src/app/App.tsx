@@ -5,6 +5,9 @@ import { PlatformPage } from "./pages/platform";
 import { ResourcesPage } from "./pages/resources";
 import { AboutPage } from "./pages/about";
 import { DemoPage } from "./pages/demo";
+import { SignupPage } from "./pages/signup";
+import { LoginPage } from "./pages/login";
+import { ForgotPasswordPage } from "./pages/forgot-password";
 
 export default function App() {
   return (
@@ -17,6 +20,9 @@ export default function App() {
           <Route path="/resources" element={<ResourcesPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/demo" element={<DemoPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         </Routes>
       </div>
     </Router>

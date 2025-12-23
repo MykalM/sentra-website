@@ -23,12 +23,20 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
               <a href="/resources" className="text-muted-foreground hover:text-foreground transition-colors">Resources</a>
               <a href="/about" className="text-muted-foreground hover:text-foreground transition-colors">About</a>
             </div>
-            <button
-              onClick={onCtaClick}
-              className="bg-primary text-primary-foreground text-sm font-medium h-10 px-6 rounded-md hover:bg-primary/90 transition-colors"
-            >
-              Get Started
-            </button>
+            <div className="flex items-center gap-3">
+              <a
+                href="/login"
+                className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+              >
+                Sign In
+              </a>
+              <a
+                href="/signup"
+                className="bg-primary text-primary-foreground text-sm font-medium h-10 px-6 rounded-md hover:bg-primary/90 transition-colors inline-flex items-center"
+              >
+                Get Started
+              </a>
+            </div>
           </div>
         </div>
       </nav>
@@ -50,12 +58,12 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <button
-                  onClick={onCtaClick}
+                <a
+                  href="/signup"
                   className="bg-primary text-primary-foreground text-base font-medium h-12 px-8 rounded-md hover:bg-primary/90 transition-colors inline-flex items-center justify-center"
                 >
-                  Join the Pilot
-                </button>
+                  Get Started
+                </a>
                 <a href="/demo" className="border border-border text-foreground text-base font-medium h-12 px-8 rounded-md hover:bg-muted transition-colors inline-flex items-center justify-center">
                   Watch Demo
                 </a>
