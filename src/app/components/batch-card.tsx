@@ -96,52 +96,52 @@ export function BatchCard({
     <div className={`bg-card rounded-2xl p-6 shadow-sm border transition-all ${getStatusColor()}`}>
       
       {/* Batch Header */}
-      <div className="flex justify-between items-center mb-4">
+      <div className={'flex justify-between items-center mb-4'}>
         <div>
-          <div className=\"flex items-center gap-2 mb-1\">
-            <h3 className=\"font-medium text-foreground\">{getTimeLabel()}</h3>
+          <div className="flex items-center gap-2 mb-1">
+            <h3 className="font-medium text-foreground">{getTimeLabel()}</h3>
             {isCurrentBatch() && batch.status === 'building' && (
-              <span className=\"px-2 py-1 bg-primary text-primary-foreground text-xs rounded-full animate-pulse\">
+              <span className="px-2 py-1 bg-primary text-primary-foreground text-xs rounded-full animate-pulse">
                 Live
               </span>
             )}
           </div>
-          <p className=\"text-sm text-muted-foreground capitalize\">
+          <p className="text-sm text-muted-foreground capitalize">
             {batch.status === 'building' ? (isCurrentBatch() ? 'Join now!' : 'Opens soon') : batch.status}
           </p>
         </div>
-        <div className=\"text-right\">
-          <div className=\"text-2xl font-bold text-foreground\">{liveCount}</div>
-          <div className=\"text-xs text-muted-foreground\">
+        <div className="text-right">
+          <div className="text-2xl font-bold text-foreground">{liveCount}</div>
+          <div className="text-xs text-muted-foreground">
             {liveCount === 1 ? 'person' : 'people'}
           </div>
         </div>
       </div>
       
       {/* Item Info */}
-      <div className=\"mb-4\">
-        <h4 className=\"font-semibold text-foreground text-lg mb-1\">{item.name}</h4>
+      <div className="mb-4">
+        <h4 className="font-semibold text-foreground text-lg mb-1">{item.name}</h4>
         {item.description && (
-          <p className=\"text-sm text-muted-foreground\">{item.description}</p>
+          <p className="text-sm text-muted-foreground">{item.description}</p>
         )}
       </div>
       
       {/* Price Display */}
-      <div className=\"bg-background border border-border rounded-xl p-4 mb-4\">
-        <div className=\"flex justify-between items-center mb-3\">
+      <div className="bg-background border border-border rounded-xl p-4 mb-4">
+        <div className="flex justify-between items-center mb-3">
           <div>
-            <div className=\"text-2xl font-bold text-foreground\">
+            <div className="text-2xl font-bold text-foreground">
               ${formatPrice(currentPrice)}
             </div>
-            <div className=\"text-xs text-muted-foreground line-through\">
+            <div className="text-xs text-muted-foreground line-through">
               ${formatPrice(walkInPrice)} walk-in
             </div>
           </div>
-          <div className=\"text-right\">
-            <div className=\"text-green-600 font-medium\">
+          <div className="text-right">
+            <div className="text-green-600 font-medium">
               Save ${formatPrice(savings)}
             </div>
-            <div className=\"text-xs text-muted-foreground\">
+            <div className="text-xs text-muted-foreground">
               vs walk-in price
             </div>
           </div>
@@ -149,11 +149,11 @@ export function BatchCard({
         
         {/* Next Tier Callout */}
         {nextTier && peopleNeeded > 0 && (
-          <div className=\"bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3\">
-            <div className=\"flex items-center gap-2 text-blue-700 dark:text-blue-300 text-sm\">
-              <span className=\"text-lg\">🎉</span>
+          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
+            <div className="flex items-center gap-2 text-blue-700 dark:text-blue-300 text-sm">
+              <span className="text-lg">🎉</span>
               <div>
-                <span className=\"font-medium\">
+                <span className="font-medium">
                   {peopleNeeded} more {peopleNeeded === 1 ? 'person' : 'people'} = ${formatPrice(nextTier.price)} for everyone!
                 </span>
               </div>
@@ -163,21 +163,21 @@ export function BatchCard({
       </div>
       
       {/* Tier Progress Bar */}
-      <div className=\"mb-4\">
-        <div className=\"flex justify-between text-xs text-muted-foreground mb-2\">
+      <div className="mb-4">
+        <div className="flex justify-between text-xs text-muted-foreground mb-2">
           <span>Batch progress</span>
           <span>Price drops as more join →</span>
         </div>
         
-        <div className=\"relative h-3 bg-muted rounded-full overflow-hidden mb-3\">
+        <div className="relative h-3 bg-muted rounded-full overflow-hidden mb-3">
           <div 
-            className=\"h-full bg-gradient-to-r from-orange-500 via-blue-500 to-green-500 transition-all duration-500\"
+            className="h-full bg-gradient-to-r from-orange-500 via-blue-500 to-green-500 transition-all duration-500"
             style={{ width: `${progress}%` }}
           />
         </div>
         
         {/* Tier Markers */}
-        <div className=\"relative h-8\">
+        <div className="relative h-8">
           {sortedTiers.map((tier, index) => {
             const position = (tier.min_count / maxTier.min_count) * 100
             const isActive = liveCount >= tier.min_count
@@ -186,7 +186,7 @@ export function BatchCard({
             return (
               <div
                 key={tier.id}
-                className=\"absolute transform -translate-x-1/2\"
+                className="absolute transform -translate-x-1/2"
                 style={{ left: `${Math.min(position, 95)}%` }}
               >
                 <div className={`w-2 h-2 rounded-full mb-1 ${
@@ -196,13 +196,13 @@ export function BatchCard({
                       ? 'bg-green-500' 
                       : 'bg-muted-foreground/30'
                 }`} />
-                <div className=\"text-xs text-center whitespace-nowrap\">
+                <div className="text-xs text-center whitespace-nowrap">
                   <div className={`font-medium ${
                     isCurrent ? 'text-primary' : isActive ? 'text-green-600' : 'text-muted-foreground'
                   }`}>
                     ${formatPrice(tier.price)}
                   </div>
-                  <div className=\"text-muted-foreground text-xs\">
+                  <div className="text-muted-foreground text-xs">
                     {tier.min_count}+
                   </div>
                 </div>
@@ -216,18 +216,18 @@ export function BatchCard({
       {canJoin ? (
         <button
           onClick={() => onJoinBatch(batch.id, item.id)}
-          className=\"w-full bg-primary text-primary-foreground h-12 rounded-lg font-medium hover:bg-primary/90 transition-colors\"
+          className="w-full bg-primary text-primary-foreground h-12 rounded-lg font-medium hover:bg-primary/90 transition-colors"
         >
           Join batch • ${formatPrice(currentPrice)} or less
         </button>
       ) : (
-        <div className=\"w-full h-12 rounded-lg border border-border bg-muted flex items-center justify-center text-muted-foreground\">
+        <div className="w-full h-12 rounded-lg border border-border bg-muted flex items-center justify-center text-muted-foreground">
           {batch.status === 'building' ? 'Batch opens soon' : `Batch ${batch.status}`}
         </div>
       )}
       
       {/* Batch Info */}
-      <div className=\"mt-3 text-center text-xs text-muted-foreground\">
+      <div className="mt-3 text-center text-xs text-muted-foreground">
         {canJoin && (
           <>Your price is locked • Can only go down • Never up</>
         )}

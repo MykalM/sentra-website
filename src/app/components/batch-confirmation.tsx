@@ -128,58 +128,58 @@ export function BatchConfirmation({
   }
   
   return (
-    <div className=\"max-w-md mx-auto px-4 py-6\">
+    <div className="max-w-md mx-auto px-4 py-6">
       
       {/* Success Header */}
-      <div className=\"text-center mb-6\">
-        <div className=\"text-4xl mb-3\">{getStatusIcon()}</div>
-        <h1 className=\"text-2xl font-bold text-foreground mb-2\">
+      <div className="text-center mb-6">
+        <div className="text-4xl mb-3">{getStatusIcon()}</div>
+        <h1 className="text-2xl font-bold text-foreground mb-2">
           {reservation.status === 'active' ? 'Locked in!' : 'Order Update'}
         </h1>
-        <p className=\"text-muted-foreground\">
+        <p className="text-muted-foreground">
           {getStatusMessage()}
         </p>
       </div>
       
       {/* Order Card */}
-      <div className=\"bg-card border border-border rounded-xl p-6 shadow-sm mb-6\">
-        <h2 className=\"font-semibold text-foreground text-lg mb-1\">{item.name}</h2>
-        <p className=\"text-sm text-muted-foreground mb-4\">
+      <div className="bg-card border border-border rounded-xl p-6 shadow-sm mb-6">
+        <h2 className="font-semibold text-foreground text-lg mb-1">{item.name}</h2>
+        <p className="text-sm text-muted-foreground mb-4">
           {formatTime(new Date(batch.starts_at))} - {formatTime(new Date(batch.ends_at))} batch at {venueName}
         </p>
         
         {/* Live Batch Stats */}
-        <div className=\"bg-background rounded-xl p-4 mb-4\">
-          <div className=\"flex justify-between items-center mb-2\">
-            <span className=\"text-sm text-muted-foreground\">People in batch</span>
-            <div className=\"flex items-center gap-2\">
-              <span className=\"font-medium text-foreground\">{liveCount}</span>
-              <div className=\"w-2 h-2 bg-green-500 rounded-full animate-pulse\"></div>
+        <div className="bg-background rounded-xl p-4 mb-4">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm text-muted-foreground">People in batch</span>
+            <div className="flex items-center gap-2">
+              <span className="font-medium text-foreground">{liveCount}</span>
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
             </div>
           </div>
           
-          <div className=\"flex justify-between items-center mb-2\">
-            <span className=\"text-sm text-muted-foreground\">Your locked price</span>
-            <span className=\"font-medium text-foreground\">${formatPrice(reservation.locked_price)}</span>
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm text-muted-foreground">Your locked price</span>
+            <span className="font-medium text-foreground">${formatPrice(reservation.locked_price)}</span>
           </div>
           
           {reservation.final_price && reservation.final_price < reservation.locked_price && (
-            <div className=\"flex justify-between items-center text-green-600 mb-2\">
-              <span className=\"text-sm\">Current batch price ↓</span>
-              <span className=\"font-medium\">${formatPrice(reservation.final_price)}</span>
+            <div className="flex justify-between items-center text-green-600 mb-2">
+              <span className="text-sm">Current batch price ↓</span>
+              <span className="font-medium">${formatPrice(reservation.final_price)}</span>
             </div>
           )}
           
-          <div className=\"flex justify-between items-center\">
-            <span className=\"text-sm text-muted-foreground\">Walk-in price</span>
-            <span className=\"text-muted-foreground line-through\">${formatPrice(item.base_price)}</span>
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-muted-foreground">Walk-in price</span>
+            <span className="text-muted-foreground line-through">${formatPrice(item.base_price)}</span>
           </div>
           
           {nextTier && peopleNeeded > 0 && (
-            <div className=\"mt-3 pt-3 border-t border-border\">
-              <div className=\"bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3\">
-                <div className=\"text-blue-700 dark:text-blue-300 text-sm text-center\">
-                  <div className=\"font-medium\">
+            <div className="mt-3 pt-3 border-t border-border">
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
+                <div className="text-blue-700 dark:text-blue-300 text-sm text-center">
+                  <div className="font-medium">
                     🎉 {peopleNeeded} more {peopleNeeded === 1 ? 'person' : 'people'} and everyone pays ${formatPrice(nextTier.price)}!
                   </div>
                 </div>
@@ -189,58 +189,58 @@ export function BatchConfirmation({
         </div>
         
         {/* Final Price Breakdown */}
-        <div className=\"space-y-2 mb-4\">
-          <div className=\"flex justify-between\">
-            <span className=\"text-muted-foreground\">Batch price</span>
-            <span className=\"text-foreground\">${formatPrice(currentPrice)}</span>
+        <div className="space-y-2 mb-4">
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Batch price</span>
+            <span className="text-foreground">${formatPrice(currentPrice)}</span>
           </div>
-          <div className=\"flex justify-between\">
-            <span className=\"text-muted-foreground\">Your lock fee credit</span>
-            <span className=\"text-foreground\">-${formatPrice(reservation.lock_fee)}</span>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Your lock fee credit</span>
+            <span className="text-foreground">-${formatPrice(reservation.lock_fee)}</span>
           </div>
-          <div className=\"flex justify-between pt-2 border-t border-border font-medium\">
-            <span className=\"text-foreground\">You pay at pickup</span>
-            <span className=\"text-foreground\">${formatPrice(finalPrice)}</span>
+          <div className="flex justify-between pt-2 border-t border-border font-medium">
+            <span className="text-foreground">You pay at pickup</span>
+            <span className="text-foreground">${formatPrice(finalPrice)}</span>
           </div>
         </div>
         
-        <div className=\"bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3 text-center\">
-          <p className=\"text-green-700 dark:text-green-300 text-sm font-medium\">
+        <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3 text-center">
+          <p className="text-green-700 dark:text-green-300 text-sm font-medium">
             Saving ${formatPrice(totalSavings)} vs walk-in price
           </p>
         </div>
       </div>
       
       {/* Redeem Code */}
-      <div className=\"bg-foreground rounded-xl p-6 text-center mb-6\">
-        <p className=\"text-xs text-muted uppercase tracking-wide mb-2\">
+      <div className="bg-foreground rounded-xl p-6 text-center mb-6">
+        <p className="text-xs text-muted uppercase tracking-wide mb-2">
           Your pickup code
         </p>
-        <p className=\"text-4xl font-mono text-background tracking-widest font-bold\">
+        <p className="text-4xl font-mono text-background tracking-widest font-bold">
           {reservation.redeem_code}
         </p>
-        <p className=\"text-sm text-muted mt-3\">
+        <p className="text-sm text-muted mt-3">
           Show this at pickup
         </p>
       </div>
       
       {/* Share Section - Only show if there's a next tier to unlock */}
       {nextTier && peopleNeeded > 0 && (
-        <div className=\"bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6 mb-6\">
-          <div className=\"text-center mb-4\">
-            <h3 className=\"font-semibold text-foreground mb-2\">
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6 mb-6">
+          <div className="text-center mb-4">
+            <h3 className="font-semibold text-foreground mb-2">
               🚀 Help unlock the next tier!
             </h3>
-            <p className=\"text-sm text-muted-foreground\">
+            <p className="text-sm text-muted-foreground">
               Share this batch with {peopleNeeded} {peopleNeeded === 1 ? 'friend' : 'friends'} and everyone saves an extra $
               {formatPrice(currentPrice - nextTier.price)}
             </p>
           </div>
           
-          <div className=\"grid grid-cols-1 gap-3\">
+          <div className="grid grid-cols-1 gap-3">
             <button
               onClick={handleNativeShare}
-              className=\"w-full bg-primary text-primary-foreground h-11 rounded-lg font-medium hover:bg-primary/90 transition-colors flex items-center justify-center gap-2\"
+              className="w-full bg-primary text-primary-foreground h-11 rounded-lg font-medium hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
             >
               {shareSuccess ? (
                 <>
@@ -257,7 +257,7 @@ export function BatchConfirmation({
             
             <button
               onClick={handleCopyLink}
-              className=\"w-full bg-background border border-border text-foreground h-11 rounded-lg font-medium hover:bg-muted transition-colors flex items-center justify-center gap-2\"
+              className="w-full bg-background border border-border text-foreground h-11 rounded-lg font-medium hover:bg-muted transition-colors flex items-center justify-center gap-2"
             >
               {copySuccess ? (
                 <>
@@ -273,8 +273,8 @@ export function BatchConfirmation({
             </button>
           </div>
           
-          <div className=\"mt-4 text-center\">
-            <p className=\"text-xs text-muted-foreground\">
+          <div className="mt-4 text-center">
+            <p className="text-xs text-muted-foreground">
               💡 The more friends join, the less everyone pays. It's a win-win!
             </p>
           </div>
@@ -282,10 +282,10 @@ export function BatchConfirmation({
       )}
       
       {/* Status Timeline */}
-      <div className=\"bg-card border border-border rounded-xl p-6 shadow-sm mb-6\">
-        <h3 className=\"font-medium text-foreground mb-4\">Order timeline</h3>
+      <div className="bg-card border border-border rounded-xl p-6 shadow-sm mb-6">
+        <h3 className="font-medium text-foreground mb-4">Order timeline</h3>
         
-        <div className=\"space-y-4\">
+        <div className="space-y-4">
           {[
             { id: 'locked', label: 'Locked in', description: 'Price secured', status: 'complete' },
             { 
@@ -311,8 +311,8 @@ export function BatchConfirmation({
             const isCurrent = step.status === 'current'
             
             return (
-              <div key={step.id} className=\"flex gap-3\">
-                <div className=\"flex flex-col items-center\">
+              <div key={step.id} className="flex gap-3">
+                <div className="flex flex-col items-center">
                   <div className={`w-6 h-6 rounded-full flex items-center justify-center text-sm font-medium ${
                     isComplete 
                       ? 'bg-green-500 text-white' 
@@ -328,13 +328,13 @@ export function BatchConfirmation({
                     }`} />
                   )}
                 </div>
-                <div className=\"flex-1\">
+                <div className="flex-1">
                   <p className={`font-medium ${
                     isComplete || isCurrent ? 'text-foreground' : 'text-muted-foreground'
                   }`}>
                     {step.label}
                   </p>
-                  <p className=\"text-sm text-muted-foreground\">{step.description}</p>
+                  <p className="text-sm text-muted-foreground">{step.description}</p>
                 </div>
               </div>
             )
@@ -345,7 +345,7 @@ export function BatchConfirmation({
       {/* Back to venue */}
       <button 
         onClick={() => window.location.href = `/${venueSlug}`}
-        className=\"w-full border border-border text-foreground h-11 rounded-lg font-medium hover:bg-muted transition-colors\"
+        className="w-full border border-border text-foreground h-11 rounded-lg font-medium hover:bg-muted transition-colors"
       >
         Back to {venueName}
       </button>
