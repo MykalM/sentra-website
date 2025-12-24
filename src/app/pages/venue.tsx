@@ -1,29 +1,38 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { PriceChart } from "../components/price-chart";
-import { LockInPricing } from "../components/lock-in-pricing";
-import { CoffeeShopModes } from "../components/coffee-shop-modes";
-import { CoffeeConfirmation } from "../components/coffee-confirmation";
+import { CommitmentDiscountPricing } from "../components/commitment-discount-pricing";
+import { GeolocationTracker } from "../components/geolocation-tracker";
+import { EfficiencyPricing } from "../components/efficiency-pricing";
+import { EfficiencyChart } from "../components/efficiency-chart";
 
 interface MenuItem {
   id: string;
   name: string;
   description: string;
   details: string;
-  currentPrice: number;
-  basePrice: number;
+  currentPrice: number; // This is now the lock-in price
+  basePrice: number;    // This is now the regular price
   reservationFee: number;
   demandLevel: "High" | "Medium" | "Low";
   reservationCount: number;
   availableCount: number;
   imageUrl: string;
   category: string;
-  priceHistory: Array<{ time: string; price: number }>;
-  hourlyReservations: number;
-  locksLeftAtPrice: number;
-  peakPriceToday: number;
-  priceChange: number;
-  priceChangeDirection: "up" | "down" | "stable";
+  regularPrice: number;    // Walk-in price (never changes)
+  lockInPrice: number;     // Discounted price for planners
+  discountPercentage: number;
+  lockedCount: number;     // How many people locked in today
+  prepTime: number;        // Minutes to prepare
+  // Efficiency pricing fields
+  currentVolume?: number;   // Orders in last hour
+  efficiencyThreshold?: number; // Volume needed for max efficiency
+  maxDiscount?: number;     // Maximum efficiency discount
+  efficiencyHistory?: {
+    time: string;
+    volume: number;
+    price: number;
+    efficiencyDiscount: number;
+  }[];
 }
 
 interface Venue {
@@ -41,11 +50,10 @@ export function VenuePage() {
   const { venueId } = useParams<{ venueId: string }>();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [reservingItem, setReservingItem] = useState<string | null>(null);
-  const [coffeeConfirmation, setCoffeeConfirmation] = useState<{
+  const [geoTracking, setGeoTracking] = useState<{
     item: MenuItem;
-    mode: 'skip-line' | 'lock-price';
-    pickupTime?: string;
     code: string;
+    finalPrice: number;
   } | null>(null);
 
   useEffect(() => {
@@ -93,135 +101,114 @@ export function VenuePage() {
         name: "Omakase Selection",
         description: "Chef's choice 8-course tasting menu",
         details: "Seasonal ingredients with Japanese technique and Korean flavors. Changes daily based on market availability.",
-        currentPrice: 85,
-        basePrice: 78,
+        currentPrice: 75,
+        basePrice: 85,
         reservationFee: 10,
         demandLevel: "High",
         reservationCount: 15,
         availableCount: 4,
         imageUrl: "https://images.unsplash.com/photo-1579027989054-b11fd739e7d9?w=400&h=300&fit=crop",
         category: "Tasting Menu",
-        priceHistory: [
-          { time: "5pm", price: 78 },
-          { time: "6pm", price: 80 },
-          { time: "7pm", price: 82 },
-          { time: "8pm", price: 85 },
-        ],
-        hourlyReservations: 8,
-        locksLeftAtPrice: 2,
-        peakPriceToday: 95,
-        priceChange: 7,
-        priceChangeDirection: "up"
+        regularPrice: 85,
+        lockInPrice: 75,
+        discountPercentage: 12,
+        lockedCount: 8,
+        prepTime: 90
       },
       {
         id: "wagyu-bowl",
         name: "A5 Wagyu Rice Bowl",
         description: "Premium wagyu beef over seasoned rice",
         details: "Authentic A5 wagyu from Japan, served over perfectly seasoned short grain rice with house-made sauces.",
-        currentPrice: 48,
-        basePrice: 45,
-        reservationFee: 5,
+        currentPrice: 42,
+        basePrice: 48,
+        reservationFee: 6,
         demandLevel: "High",
         reservationCount: 12,
         availableCount: 6,
         imageUrl: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop",
         category: "Mains",
-        priceHistory: [
-          { time: "5pm", price: 45 },
-          { time: "6pm", price: 46 },
-          { time: "7pm", price: 47 },
-          { time: "8pm", price: 48 },
-        ],
-        hourlyReservations: 12,
-        locksLeftAtPrice: 3,
-        peakPriceToday: 52,
-        priceChange: 3,
-        priceChangeDirection: "up"
+        regularPrice: 48,
+        lockInPrice: 42,
+        discountPercentage: 13,
+        lockedCount: 12,
+        prepTime: 15
       },
       {
         id: "ramen-special",
         name: "Tonkotsu Ramen Special",
         description: "Rich pork bone broth with handmade noodles",
         details: "20-hour slow-cooked tonkotsu broth with house-made noodles, chashu pork, and seasonal vegetables.",
-        currentPrice: 22,
-        basePrice: 20,
+        currentPrice: 19,
+        basePrice: 22,
         reservationFee: 3,
         demandLevel: "Medium",
         reservationCount: 8,
         availableCount: 12,
         imageUrl: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=300&fit=crop",
         category: "Mains",
-        priceHistory: [
-          { time: "5pm", price: 20 },
-          { time: "6pm", price: 21 },
-          { time: "7pm", price: 22 },
-          { time: "8pm", price: 22 },
-        ],
-        hourlyReservations: 8,
-        locksLeftAtPrice: 6,
-        peakPriceToday: 25,
-        priceChange: 2,
-        priceChangeDirection: "up"
+        regularPrice: 22,
+        lockInPrice: 19,
+        discountPercentage: 14,
+        lockedCount: 6,
+        prepTime: 12
       },
       {
         id: "sake-flight",
         name: "Premium Sake Flight",
         description: "Curated selection of 4 premium sakes",
         details: "Junmai, Ginjo, Daiginjo, and seasonal selection paired with tasting notes and guidance from our sake sommelier.",
-        currentPrice: 28,
-        basePrice: 26,
-        reservationFee: 3,
+        currentPrice: 24,
+        basePrice: 28,
+        reservationFee: 4,
         demandLevel: "Medium",
         reservationCount: 6,
         availableCount: 8,
         imageUrl: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&h=300&fit=crop",
         category: "Drinks",
-        priceHistory: [{ time: "5pm", price: 26 }, { time: "6pm", price: 27 }, { time: "7pm", price: 28 }, { time: "8pm", price: 28 }],
-        hourlyReservations: 6,
-        locksLeftAtPrice: 4,
-        peakPriceToday: 32,
-        priceChange: 2,
-        priceChangeDirection: "up"
+        regularPrice: 28,
+        lockInPrice: 24,
+        discountPercentage: 14,
+        lockedCount: 9,
+        prepTime: 3
       },
       {
         id: "uni-toast",
         name: "Sea Urchin Toast",
         description: "Fresh uni on brioche with yuzu aioli",
         details: "Santa Barbara uni served on toasted brioche with yuzu aioli, micro greens, and black sesame.",
-        currentPrice: 24,
-        basePrice: 22,
-        reservationFee: 3,
+        currentPrice: 20,
+        basePrice: 24,
+        reservationFee: 4,
         demandLevel: "Low",
         reservationCount: 4,
         availableCount: 10,
         imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop",
         category: "Appetizers",
-        priceHistory: [{ time: "5pm", price: 22 }, { time: "6pm", price: 22 }, { time: "7pm", price: 23 }, { time: "8pm", price: 24 }],
-        hourlyReservations: 4,
-        locksLeftAtPrice: 8,
-        peakPriceToday: 26,
-        priceChange: 2,
-        priceChangeDirection: "up"
+        regularPrice: 24,
+        lockInPrice: 20,
+        discountPercentage: 17,
+        lockedCount: 4,
+        prepTime: 8
       },
       {
         id: "matcha-dessert",
         name: "Matcha Cheesecake",
         description: "Japanese-style cheesecake with matcha",
         details: "Light, airy cheesecake infused with ceremonial grade matcha, served with black sesame ice cream.",
-        currentPrice: 14,
-        basePrice: 12,
-        reservationFee: 2,
+        currentPrice: 11,
+        basePrice: 14,
+        reservationFee: 3,
         demandLevel: "Low",
         reservationCount: 3,
         availableCount: 15,
         imageUrl: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400&h=300&fit=crop",
         category: "Desserts",
-        priceHistory: [{ time: "5pm", price: 12 }, { time: "6pm", price: 12 }, { time: "7pm", price: 13 }, { time: "8pm", price: 14 }],
-        hourlyReservations: 3,
-        locksLeftAtPrice: 12,
-        peakPriceToday: 16,
-        priceChange: 2,
-        priceChangeDirection: "up"
+        regularPrice: 14,
+        lockInPrice: 11,
+        discountPercentage: 21,
+        lockedCount: 5,
+        prepTime: 5
       }
     ],
     "escape-360": [
@@ -230,25 +217,19 @@ export function VenuePage() {
         name: "Burgundian Chardonnay",
         description: "2019 Domaine Leflaive Puligny-Montrachet",
         details: "Rich, mineral-driven white with notes of green apple, citrus, and subtle oak. Perfect with seafood.",
-        currentPrice: 24,
-        basePrice: 22,
-        reservationFee: 2,
+        currentPrice: 22,
+        basePrice: 26,
+        reservationFee: 4,
         demandLevel: "High",
         reservationCount: 12,
         availableCount: 8,
         imageUrl: "https://images.unsplash.com/photo-1586370434639-0fe43b2d32d6?w=400&h=300&fit=crop",
         category: "White Wine",
-        priceHistory: [
-          { time: "7pm", price: 22 },
-          { time: "8pm", price: 23 },
-          { time: "9pm", price: 24 },
-          { time: "now", price: 24 },
-        ],
-        hourlyReservations: 12,
-        locksLeftAtPrice: 4,
-        peakPriceToday: 28,
-        priceChange: 2,
-        priceChangeDirection: "up"
+        regularPrice: 26,
+        lockInPrice: 22,
+        discountPercentage: 15,
+        lockedCount: 14,
+        prepTime: 2
       }
     ],
     "blue-moon-coffee": [
@@ -257,75 +238,90 @@ export function VenuePage() {
         name: "Oat Milk Flat White",
         description: "House blend espresso with premium oat milk",
         details: "Our signature single-origin Ethiopian beans with perfectly steamed Oatly milk. Smooth, creamy, and sustainably sourced.",
-        currentPrice: 6.80,
-        basePrice: 6.50,
+        currentPrice: 5.50, // This is now the lock-in price
+        basePrice: 6.50,    // This is now the regular walk-in price
         reservationFee: 1.00,
         demandLevel: "High",
         reservationCount: 12,
         availableCount: 8,
         imageUrl: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop",
         category: "Coffee",
-        priceHistory: [
-          { time: "7am", price: 6.50 },
-          { time: "8am", price: 6.80 },
-          { time: "9am", price: 6.80 },
-          { time: "now", price: 6.80 },
-        ],
-        hourlyReservations: 12,
-        locksLeftAtPrice: 3,
-        peakPriceToday: 7.50,
-        priceChange: 0.30,
-        priceChangeDirection: "up"
+        regularPrice: 6.50,    // Walk-in price (never changes)
+        lockInPrice: 5.50,     // Discounted price for planners
+        discountPercentage: 15,
+        lockedCount: 23,       // People who locked in today
+        prepTime: 2,           // Minutes to prepare
+        currentVolume: 18,     // Orders this hour
+        efficiencyThreshold: 25, // Peak efficiency at 25+ orders/hour
+        maxDiscount: 2.00,     // Up to $2 off from efficiency
+        efficiencyHistory: [
+          { time: "2pm", volume: 8, price: 6.10, efficiencyDiscount: 0.40 },
+          { time: "3pm", volume: 12, price: 5.90, efficiencyDiscount: 0.60 },
+          { time: "4pm", volume: 15, price: 5.70, efficiencyDiscount: 0.80 },
+          { time: "5pm", volume: 18, price: 5.50, efficiencyDiscount: 1.00 },
+          { time: "6pm", volume: 22, price: 5.20, efficiencyDiscount: 1.30 },
+          { time: "7pm", volume: 18, price: 5.50, efficiencyDiscount: 1.00 }
+        ]
       },
       {
         id: "lavender-honey-latte",
         name: "Lavender Honey Latte",
         description: "Espresso with lavender-infused honey syrup",
         details: "House-made lavender honey syrup with our signature espresso blend and steamed milk. A floral and sweet morning treat.",
-        currentPrice: 6.00,
-        basePrice: 5.50,
+        currentPrice: 5.00,
+        basePrice: 6.00,
         reservationFee: 1.00,
         demandLevel: "Medium",
         reservationCount: 8,
         availableCount: 12,
         imageUrl: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop",
         category: "Specialty Drinks",
-        priceHistory: [
-          { time: "7am", price: 5.50 },
-          { time: "8am", price: 5.75 },
-          { time: "9am", price: 6.00 },
-          { time: "now", price: 6.00 },
-        ],
-        hourlyReservations: 8,
-        locksLeftAtPrice: 5,
-        peakPriceToday: 6.75,
-        priceChange: 0.50,
-        priceChangeDirection: "up"
+        regularPrice: 6.00,
+        lockInPrice: 5.00,
+        discountPercentage: 17,
+        lockedCount: 15,
+        prepTime: 2,
+        currentVolume: 12,
+        efficiencyThreshold: 20,
+        maxDiscount: 1.50,
+        efficiencyHistory: [
+          { time: "2pm", volume: 5, price: 5.80, efficiencyDiscount: 0.20 },
+          { time: "3pm", volume: 8, price: 5.60, efficiencyDiscount: 0.40 },
+          { time: "4pm", volume: 10, price: 5.40, efficiencyDiscount: 0.60 },
+          { time: "5pm", volume: 12, price: 5.20, efficiencyDiscount: 0.80 },
+          { time: "6pm", volume: 15, price: 4.90, efficiencyDiscount: 1.10 },
+          { time: "7pm", volume: 12, price: 5.20, efficiencyDiscount: 0.80 }
+        ]
       },
       {
         id: "avocado-toast",
         name: "Smashed Avocado Toast",
         description: "Sourdough with smashed avocado and everything seasoning",
         details: "Locally-baked sourdough with perfectly ripe avocado, everything bagel seasoning, red pepper flakes, and a drizzle of olive oil.",
-        currentPrice: 11.00,
-        basePrice: 10.00,
+        currentPrice: 9.50,
+        basePrice: 11.00,
         reservationFee: 1.50,
         demandLevel: "Medium",
         reservationCount: 6,
         availableCount: 10,
         imageUrl: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400&h=300&fit=crop",
         category: "Food",
-        priceHistory: [
-          { time: "7am", price: 10.00 },
-          { time: "8am", price: 10.50 },
-          { time: "9am", price: 11.00 },
-          { time: "now", price: 11.00 },
-        ],
-        hourlyReservations: 6,
-        locksLeftAtPrice: 7,
-        peakPriceToday: 12.50,
-        priceChange: 1.00,
-        priceChangeDirection: "up"
+        regularPrice: 11.00,
+        lockInPrice: 9.50,
+        discountPercentage: 14,
+        lockedCount: 11,
+        prepTime: 5,
+        currentVolume: 6,
+        efficiencyThreshold: 15,
+        maxDiscount: 3.00,
+        efficiencyHistory: [
+          { time: "2pm", volume: 2, price: 10.60, efficiencyDiscount: 0.40 },
+          { time: "3pm", volume: 4, price: 10.20, efficiencyDiscount: 0.80 },
+          { time: "4pm", volume: 5, price: 10.00, efficiencyDiscount: 1.00 },
+          { time: "5pm", volume: 6, price: 9.80, efficiencyDiscount: 1.20 },
+          { time: "6pm", volume: 8, price: 9.40, efficiencyDiscount: 1.60 },
+          { time: "7pm", volume: 6, price: 9.80, efficiencyDiscount: 1.20 }
+        ]
       }
     ]
   };
@@ -348,41 +344,21 @@ export function VenuePage() {
     }
   };
 
-  const handleReserveItem = async (itemId: string) => {
-    setReservingItem(itemId);
-    // Simulate API call
-    setTimeout(() => {
-      setReservingItem(null);
-      // In real app, would navigate to reservation confirmation
-      alert("Reservation successful! Code: ABC123");
-    }, 2000);
-  };
-
-  const handleCoffeeSkipLine = async (item: MenuItem, pickupTime: string) => {
+  const handleLockInItem = async (item: MenuItem) => {
     setReservingItem(item.id);
     // Simulate API call
     setTimeout(() => {
       setReservingItem(null);
       const code = Math.random().toString(36).substring(2, 8).toUpperCase();
-      setCoffeeConfirmation({
-        item,
-        mode: 'skip-line',
-        pickupTime,
-        code
-      });
-    }, 2000);
-  };
-
-  const handleCoffeeLockPrice = async (item: MenuItem) => {
-    setReservingItem(item.id);
-    // Simulate API call
-    setTimeout(() => {
-      setReservingItem(null);
-      const code = Math.random().toString(36).substring(2, 8).toUpperCase();
-      setCoffeeConfirmation({
-        item,
-        mode: 'lock-price',
-        code
+      const finalPrice = item.lockInPrice - item.reservationFee;
+      
+      setGeoTracking({
+        item: {
+          name: item.name,
+          prepTime: item.prepTime
+        },
+        code,
+        finalPrice
       });
     }, 2000);
   };
@@ -398,20 +374,19 @@ export function VenuePage() {
     );
   }
 
-  // Show coffee confirmation if exists
-  if (coffeeConfirmation) {
+  // Show geolocation tracker if item locked in
+  if (geoTracking) {
     return (
-      <CoffeeConfirmation
-        item={coffeeConfirmation.item}
-        mode={coffeeConfirmation.mode}
-        pickupTime={coffeeConfirmation.pickupTime}
-        code={coffeeConfirmation.code}
+      <GeolocationTracker
+        item={geoTracking.item}
+        lockFee={0}
+        finalPrice={geoTracking.finalPrice}
+        code={geoTracking.code}
         venueName={venue.name}
+        venueAddress={venue.location}
       />
     );
   }
-
-  const isCoffeeShop = venue.cuisine === "Coffee Shop";
 
   return (
     <div className="min-h-screen bg-background">
@@ -490,6 +465,31 @@ export function VenuePage() {
         </div>
 
         {/* Menu Items Grid - Polymarket Style */}
+        {/* Revolutionary Economics Notice */}
+        {venueId === 'blue-moon-coffee' && (
+          <div className="mb-8">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-2xl">🚀</span>
+                <div>
+                  <h2 className="text-xl font-bold text-foreground">Revolutionary Economics</h2>
+                  <p className="text-sm text-muted-foreground">More people = Lower prices (opposite of surge pricing)</p>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                This coffee shop demonstrates economies of scale pricing. When more people order the same item, 
+                batch efficiency improves and everyone pays less. Your insight about making popularity reduce prices 
+                instead of increase them is genuinely revolutionary!
+              </p>
+              <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3">
+                <p className="text-green-700 dark:text-green-300 text-sm font-medium">
+                  ✅ Live efficiency pricing • ✅ Volume discounts • ✅ Geolocation prep timing
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="grid md:grid-cols-2 gap-6">
           {filteredItems.map((item) => (
             <div key={item.id} className="bg-card border border-border rounded-2xl overflow-hidden hover:shadow-lg transition-shadow">
@@ -533,42 +533,37 @@ export function VenuePage() {
                   </p>
                 </div>
 
-                {/* Conditional Pricing Interface */}
-                {isCoffeeShop ? (
-                  <CoffeeShopModes
-                    item={{
-                      name: item.name,
-                      currentPrice: item.currentPrice,
-                      reservationFee: item.reservationFee,
-                      peakPriceToday: item.peakPriceToday,
-                      priceChange: item.priceChange
-                    }}
-                    onSkipLine={(pickupTime) => handleCoffeeSkipLine(item, pickupTime)}
-                    onLockPrice={() => handleCoffeeLockPrice(item)}
-                    isProcessing={reservingItem === item.id}
-                  />
-                ) : (
+                {/* Conditional Pricing Model */}
+                {venue.cuisine === "Coffee Shop" && item.currentVolume !== undefined ? (
                   <>
-                    {/* Price Chart */}
-                    <PriceChart 
-                      priceHistory={item.priceHistory}
-                      currentPrice={item.currentPrice}
-                      priceChange={item.priceChange}
-                      priceChangeDirection={item.priceChangeDirection}
-                    />
-
-                    {/* Lock In Pricing */}
-                    <LockInPricing
-                      currentPrice={item.currentPrice}
-                      reservationFee={item.reservationFee}
-                      peakPriceToday={item.peakPriceToday}
-                      hourlyReservations={item.hourlyReservations}
-                      locksLeftAtPrice={item.locksLeftAtPrice}
+                    <EfficiencyChart
                       itemName={item.name}
-                      onLockIn={() => handleReserveItem(item.id)}
+                      efficiencyHistory={item.efficiencyHistory || []}
+                      basePrice={item.regularPrice}
+                      maxDiscount={item.maxDiscount || 2}
+                    />
+                    <EfficiencyPricing
+                      itemName={item.name}
+                      basePrice={item.regularPrice}
+                      currentVolume={item.currentVolume}
+                      efficiencyThreshold={item.efficiencyThreshold || 25}
+                      maxDiscount={item.maxDiscount || 2}
+                      lockFee={item.reservationFee}
+                      onLockIn={() => handleLockInItem(item)}
                       isLocking={reservingItem === item.id}
                     />
                   </>
+                ) : (
+                  <CommitmentDiscountPricing
+                    itemName={item.name}
+                    regularPrice={item.regularPrice}
+                    lockInPrice={item.lockInPrice}
+                    lockFee={item.reservationFee}
+                    discountPercentage={item.discountPercentage}
+                    lockedCount={item.lockedCount}
+                    onLockIn={() => handleLockInItem(item)}
+                    isLocking={reservingItem === item.id}
+                  />
                 )}
               </div>
             </div>

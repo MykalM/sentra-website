@@ -18,26 +18,26 @@
   --sentra-terracotta: #C17F59;
   --sentra-sage: #7D8B75;
   
-  /* Dark theme by default - Benchling inspired */
-  --background: #0B0E14;
-  --foreground: #F7F9FC;
-  --card: #1A1D25;
-  --card-foreground: #F7F9FC;
-  --popover: #1A1D25;
-  --popover-foreground: #F7F9FC;
+  /* Light theme - Professional modern design */
+  --background: #FFFFFF;
+  --foreground: #0B0E14;
+  --card: #FFFFFF;
+  --card-foreground: #0B0E14;
+  --popover: #FFFFFF;
+  --popover-foreground: #0B0E14;
   --primary: #00C896;
-  --primary-foreground: #0B0E14;
-  --secondary: #2A2F3A;
-  --secondary-foreground: #F7F9FC;
-  --muted: #2A2F3A;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F7F9FC;
+  --secondary-foreground: #0B0E14;
+  --muted: #F7F9FC;
   --muted-foreground: #8B94A1;
   --accent: #00C896;
-  --accent-foreground: #0B0E14;
+  --accent-foreground: #FFFFFF;
   --destructive: #EF4444;
-  --destructive-foreground: #F7F9FC;
-  --border: rgba(139, 148, 161, 0.2);
-  --input: #2A2F3A;
-  --input-background: #2A2F3A;
+  --destructive-foreground: #FFFFFF;
+  --border: rgba(0, 0, 0, 0.08);
+  --input: #FFFFFF;
+  --input-background: #FFFFFF;
   --switch-background: #444954;
   --font-weight-medium: 500;
   --font-weight-normal: 400;

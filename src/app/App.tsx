@@ -13,6 +13,7 @@ import { GuestPage } from "./pages/guest";
 import { QRPage } from "./pages/qr";
 import { DiscoverPage } from "./pages/discover";
 import { VenuePage } from "./pages/venue";
+import { BatchDemoPage } from "./pages/batch-demo";
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/venue/:venueId" element={<VenuePage />} />
           <Route path="/qr" element={<QRPage />} />
           <Route path="/discover" element={<DiscoverPage />} />
+          <Route path="/batch-demo" element={<BatchDemoPage />} />
         </Routes>
       </div>
     </Router>

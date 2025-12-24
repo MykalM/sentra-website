@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
+
 interface HeroSectionProps {
-  onCtaClick: () => void;
+  onCtaClick?: () => void;
 }
 
 export function HeroSection({ onCtaClick }: HeroSectionProps) {
@@ -8,34 +10,34 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
       {/* Navigation */}
       <nav className="relative z-20 px-6 py-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3">
             <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
               <span className="text-primary-foreground text-lg font-semibold">S</span>
             </div>
             <h3 className="text-2xl text-foreground font-semibold tracking-tight">Sentra</h3>
-          </div>
+          </Link>
           
           {/* Navigation Menu */}
           <div className="hidden md:flex items-center gap-8">
             <div className="flex items-center gap-6 text-sm font-medium">
-              <a href="/solutions" className="text-muted-foreground hover:text-foreground transition-colors">Solutions</a>
-              <a href="/platform" className="text-muted-foreground hover:text-foreground transition-colors">Platform</a>
-              <a href="/resources" className="text-muted-foreground hover:text-foreground transition-colors">Resources</a>
-              <a href="/about" className="text-muted-foreground hover:text-foreground transition-colors">About</a>
+              <Link to="/solutions" className="text-muted-foreground hover:text-foreground transition-colors">Solutions</Link>
+              <Link to="/platform" className="text-muted-foreground hover:text-foreground transition-colors">Platform</Link>
+              <Link to="/resources" className="text-muted-foreground hover:text-foreground transition-colors">Resources</Link>
+              <Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">About</Link>
             </div>
             <div className="flex items-center gap-3">
-              <a
-                href="/login"
+              <Link
+                to="/login"
                 className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
               >
                 Sign In
-              </a>
-              <a
-                href="/signup"
+              </Link>
+              <Link
+                to="/signup"
                 className="bg-primary text-primary-foreground text-sm font-medium h-10 px-6 rounded-md hover:bg-primary/90 transition-colors inline-flex items-center"
               >
                 Get Started
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -64,18 +66,18 @@ export function HeroSection({ onCtaClick }: HeroSectionProps) {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <a
-              href="/discover"
+            <Link
+              to="/discover"
               className="bg-primary text-primary-foreground text-lg font-medium h-14 px-10 rounded-md hover:bg-primary/90 transition-colors inline-flex items-center justify-center"
             >
               Find Restaurants Near You
-            </a>
-            <a 
-              href="/demo" 
+            </Link>
+            <Link 
+              to="/demo" 
               className="border-2 border-border text-foreground text-lg font-medium h-14 px-10 rounded-md hover:bg-card transition-colors inline-flex items-center justify-center"
             >
               Watch Demo
-            </a>
+            </Link>
           </div>
 
           {/* Social Proof */}

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export function HowItWorksSection() {
   const steps = [
     {
@@ -141,18 +143,18 @@ export function HowItWorksSection() {
               Join Portland's leading restaurants and start understanding your guests like never before
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="/signup"
+              <Link
+                to="/signup"
                 className="bg-primary text-primary-foreground text-lg font-medium h-14 px-10 rounded-md hover:bg-primary/90 transition-colors inline-flex items-center justify-center"
               >
                 Start Free Trial
-              </a>
-              <a
-                href="/demo"
+              </Link>
+              <Link
+                to="/demo"
                 className="border-2 border-border text-foreground text-lg font-medium h-14 px-10 rounded-md hover:bg-muted transition-colors inline-flex items-center justify-center"
               >
                 Book Demo
-              </a>
+              </Link>
             </div>
           </div>
         </div>

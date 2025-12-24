@@ -32,7 +32,7 @@ export function HomePage() {
   };
 
   return (
-    <>
+    <div className="min-h-screen">
       <HeroSection onCtaClick={() => scrollToSection("pilot")} />
       <HowItWorksSection />
       <ProblemSection />
@@ -41,6 +41,6 @@ export function HomePage() {
       <PilotCtaSection />
       <FAQSection />
       <Footer />
-    </>
+    </div>
   );
 }

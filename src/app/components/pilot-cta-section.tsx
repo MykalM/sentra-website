@@ -128,7 +128,7 @@ export function PilotCtaSection() {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full h-12 px-4 text-foreground bg-input border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                  className="w-full h-12 px-4 text-foreground bg-input-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
                 />
               </div>
 
@@ -143,7 +143,7 @@ export function PilotCtaSection() {
                   required
                   value={formData.venue}
                   onChange={handleChange}
-                  className="w-full h-12 px-4 text-foreground bg-input border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                  className="w-full h-12 px-4 text-foreground bg-input-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
                 />
               </div>
             </div>
@@ -160,7 +160,7 @@ export function PilotCtaSection() {
                   required
                   value={formData.city}
                   onChange={handleChange}
-                  className="w-full h-12 px-4 text-foreground bg-input border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                  className="w-full h-12 px-4 text-foreground bg-input-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
                 />
               </div>
 
@@ -175,7 +175,7 @@ export function PilotCtaSection() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full h-12 px-4 text-foreground bg-input border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                  className="w-full h-12 px-4 text-foreground bg-input-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
                 />
               </div>
             </div>
@@ -190,7 +190,7 @@ export function PilotCtaSection() {
                 rows={3}
                 value={formData.headache}
                 onChange={handleChange}
-                className="w-full px-4 py-3 text-foreground bg-input border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all resize-none"
+                className="w-full px-4 py-3 text-foreground bg-input-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all resize-none"
               />
             </div>
 
